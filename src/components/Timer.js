@@ -18,11 +18,16 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
 
     // 🔊 Função para tocar o som quando o tempo acabar
     const playSound = async () => {
-        const { sound } = await Audio.Sound.createAsync(
-            require("../assets/alarm.mp3") // Substitua pelo caminho correto do som
-        );
-        await sound.playAsync();
+        try {
+            const { sound } = await Audio.Sound.createAsync(
+                require("../../assets/alarm.mp3")
+            );
+            await sound.playAsync();
+        } catch (error) {
+            console.warn("Erro ao tocar o som:", error);
+        }
     };
+    
 
     useEffect(() => {
         let interval;
@@ -35,8 +40,9 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
 
             if (mode === "focus") {
                 showBreakReminder(); // Exibe o alerta apenas quando o FOCO termina
-                onFinish(); // Troca para o descanso
+                 // Troca para o descanso
             }
+            onFinish();
         }
 
         return () => clearInterval(interval);
