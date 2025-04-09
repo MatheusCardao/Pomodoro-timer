@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Audio } from "expo-av"; // 🔊 Importando o módulo para som
 import styled from "styled-components/native";
 import showBreakReminder from "./Alert"; // Importando alerta
@@ -13,6 +13,12 @@ const TimeText = styled.Text`
   font-weight: bold;
 `;
 
+const ModeText = styled.Text`
+  font-size: 24px;
+  color: #888;
+  margin-bottom: 10px;
+`;
+
 const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime }) => {
     const [timeLeft, setTimeLeft] = useState(focusTime * 60);
 
@@ -20,28 +26,35 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
     const playSound = async () => {
         try {
             const { sound } = await Audio.Sound.createAsync(
-                require("../../assets/alarm.mp3")
+                require("../../assets/audio.wav")
             );
             await sound.playAsync();
         } catch (error) {
             console.warn("Erro ao tocar o som:", error);
         }
     };
-    
+
+    const hasFinished = useRef(false);
 
     useEffect(() => {
         let interval;
+
         if (isRunning && timeLeft > 0) {
+            hasFinished.current = false; // Reinicia a flag sempre que o tempo tá rolando
             interval = setInterval(() => {
                 setTimeLeft((prevTime) => prevTime - 1);
             }, 1000);
-        } else if (timeLeft === 0) {
-            playSound(); // 🔊 Emite o som quando o tempo acaba
+        }
+
+        if (isRunning && timeLeft === 0 && !hasFinished.current) {
+            hasFinished.current = true; // Marca que já executou
+
+            playSound();
 
             if (mode === "focus") {
-                showBreakReminder(); // Exibe o alerta apenas quando o FOCO termina
-                 // Troca para o descanso
+                showBreakReminder();
             }
+
             onFinish();
         }
 
@@ -61,6 +74,7 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
 
     return (
         <TimerContainer>
+            <ModeText>{mode === "focus" ? "🧠 Foco" : "😌 Descanso"}</ModeText>
             <TimeText>{formatTime(timeLeft)}</TimeText>
         </TimerContainer>
     );
