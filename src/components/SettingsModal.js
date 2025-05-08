@@ -2,25 +2,23 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from "react-native";
 
 const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRestTime }) => {
-    // Extrai minutos e segundos dos valores atuais (em segundos)
+
     const extractTimeValues = (totalSeconds) => {
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
         return { minutes: minutes.toString(), seconds: seconds.toString() };
     };
 
-    // Inicializa com os valores atuais quando o modal abre
     const [focusMinutes, setFocusMinutes] = useState("");
     const [focusSeconds, setFocusSeconds] = useState("");
     const [restMinutes, setRestMinutes] = useState("");
     const [restSeconds, setRestSeconds] = useState("");
 
-    // Atualiza os valores quando o modal é aberto ou os valores atuais mudam
     useEffect(() => {
         if (visible) {
             const focusValues = extractTimeValues(currentFocusTime);
             const restValues = extractTimeValues(currentRestTime);
-            
+
             setFocusMinutes(focusValues.minutes);
             setFocusSeconds(focusValues.seconds);
             setRestMinutes(restValues.minutes);
@@ -28,33 +26,32 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
         }
     }, [visible, currentFocusTime, currentRestTime]);
 
-    // Validação e formatação dos valores inseridos
     const validateNumericInput = (value, setter) => {
-        // Remove caracteres não numéricos
+
         const numericValue = value.replace(/[^0-9]/g, '');
         setter(numericValue);
         return numericValue;
     };
 
     const validateSeconds = (value, setter) => {
+
         const numericValue = validateNumericInput(value, setter);
-        // Garante que os segundos estejam entre 0 e 59
+
         if (parseInt(numericValue) > 59) {
             setter("59");
         }
     };
 
     const handleSave = () => {
-        // Converte e valida os valores
+
         const focusMin = parseInt(focusMinutes) || 0;
         const focusSec = parseInt(focusSeconds) || 0;
         const restMin = parseInt(restMinutes) || 0;
         const restSec = parseInt(restSeconds) || 0;
 
-        // Garante tempos mínimos (pelo menos 1 segundo)
         const focusTime = Math.max(1, focusMin * 60 + focusSec);
         const restTime = Math.max(1, restMin * 60 + restSec);
-        
+
         onSave(focusTime, restTime);
         onClose();
     };
@@ -65,7 +62,7 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                 <View style={styles.modalView}>
                     {/* Cabeçalho */}
                     <Text style={styles.modalTitle}>Configurações</Text>
-                    
+
                     {/* Seção de tempo de foco */}
                     <Text style={styles.sectionTitle}>Tempo de Foco</Text>
                     <View style={styles.timeInputContainer}>
@@ -80,7 +77,7 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                             />
                             <Text style={styles.labelText}>min</Text>
                         </View>
-                        
+
                         <View style={styles.inputGroup}>
                             <TextInput
                                 style={styles.input}
@@ -93,7 +90,7 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                             <Text style={styles.labelText}>seg</Text>
                         </View>
                     </View>
-                    
+
                     {/* Seção de tempo de descanso */}
                     <Text style={styles.sectionTitle}>Tempo de Descanso</Text>
                     <View style={styles.timeInputContainer}>
@@ -108,7 +105,7 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                             />
                             <Text style={styles.labelText}>min</Text>
                         </View>
-                        
+
                         <View style={styles.inputGroup}>
                             <TextInput
                                 style={styles.input}
@@ -121,10 +118,10 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                             <Text style={styles.labelText}>seg</Text>
                         </View>
                     </View>
-                    
+
                     {/* Botão de salvar */}
-                    <TouchableOpacity 
-                        style={styles.saveButton} 
+                    <TouchableOpacity
+                        style={styles.saveButton}
                         onPress={handleSave}
                     >
                         <Text style={styles.saveButtonText}>Salvar</Text>

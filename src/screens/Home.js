@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Modal, Text } from "react-native";
 import styled from "styled-components/native";
@@ -91,21 +92,30 @@ const Home = () => {
 
     const handleReset = () => {
         setIsRunning(false);
-        setMode("focus");
         setResetTrigger(prev => prev + 1);
     };
 
+    const handleSaveSettings = () => {
+        if (focusTime === 0 && restTime === 0) {
+            Alert.alert(
+                "Tempo inválido",
+                "Defina um tempo maior que 00:00 para foco e/ou descanso."
+            );
+            return;
+        }
+
+        setModalVisible(false);
+    };
+
     const handleFinish = () => {
-        setIsRunning(false); 
+        setIsRunning(false);
         if (mode === "focus") {
-            //showBreakReminder(); ESTAVA DUPLICANDO ---> NA FRENTE DELA VOU COLCOCAR UM ALERT PRA VOLTAR PRO FOCO
             setMode("rest");
         } else {
             setMode("focus");
         }
     };
 
-    // Funções de manipulação dos inputs
     const handleFocusMinutesChange = (text) => {
         const minutes = parseInt(text) || 0;
         const seconds = focusTime % 60;
@@ -115,7 +125,6 @@ const Home = () => {
     const handleFocusSecondsChange = (text) => {
         const minutes = Math.floor(focusTime / 60);
         const seconds = parseInt(text) || 0;
-        // Garantir que segundos esteja entre 0-59
         const validSeconds = Math.min(59, seconds);
         setFocusTime(minutes * 60 + validSeconds);
     };
@@ -129,7 +138,6 @@ const Home = () => {
     const handleRestSecondsChange = (text) => {
         const minutes = Math.floor(restTime / 60);
         const seconds = parseInt(text) || 0;
-        // Garantir que segundos esteja entre 0-59
         const validSeconds = Math.min(59, seconds);
         setRestTime(minutes * 60 + validSeconds);
     };
@@ -161,7 +169,7 @@ const Home = () => {
                                 />
                                 <TimeUnitLabel>min</TimeUnitLabel>
                             </InputWithLabel>
-                            
+
                             <InputWithLabel>
                                 <StyledInput
                                     keyboardType="numeric"
@@ -182,7 +190,7 @@ const Home = () => {
                                 />
                                 <TimeUnitLabel>min</TimeUnitLabel>
                             </InputWithLabel>
-                            
+
                             <InputWithLabel>
                                 <StyledInput
                                     keyboardType="numeric"
@@ -193,7 +201,7 @@ const Home = () => {
                             </InputWithLabel>
                         </TimeRow>
 
-                        <SaveButton onPress={() => setModalVisible(false)}>
+                        <SaveButton onPress={handleSaveSettings}>
                             <SaveText>Salvar</SaveText>
                         </SaveButton>
                     </ConfigBox>

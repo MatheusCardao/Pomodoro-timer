@@ -22,9 +22,9 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
 
     const getInitialTime = () => {
         return mode === "focus"
-          ? Math.max(1, parseTime(focusTime, 1500)) 
-          : Math.max(1, parseTime(restTime, 300)); 
-      };
+            ? Math.max(1, parseTime(focusTime, 1500))
+            : Math.max(1, parseTime(restTime, 300));
+    };
 
     const [timeLeft, setTimeLeft] = useState(getInitialTime());
     const timeLeftRef = useRef(timeLeft);
@@ -66,9 +66,9 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
             hasFinishedRef.current = true;
             playSound();
             if (mode === "focus") {
-                showBreakReminder();  // alerta de pausa
+                showBreakReminder();
             } else {
-                showFocusReminder();  // alerta para voltar ao foco
+                showFocusReminder();
             }
             onFinish();
         }

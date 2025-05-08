@@ -15,5 +15,3 @@ export const showFocusReminder = () => {
         [{ text: "Vamos lá!", onPress: () => console.log("Usuário voltou ao foco") }]
     );
 };
-
-// export default showBreakReminder;
