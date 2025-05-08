@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 
-const showBreakReminder = () => {
+export const showBreakReminder = () => {
     Alert.alert(
         "Pausa para Alongamento!",
         "Levante-se, alongue-se, beba água e descanse por alguns minutos! 🏃‍♂️💧",
@@ -8,4 +8,12 @@ const showBreakReminder = () => {
     );
 };
 
-export default showBreakReminder;
+export const showFocusReminder = () => {
+    Alert.alert(
+        "Hora de Focar! 🎯",
+        "Volte ao seu objetivo. Concentre-se e dê o seu melhor nesse momento de estudo ou trabalho! 🚀",
+        [{ text: "Vamos lá!", onPress: () => console.log("Usuário voltou ao foco") }]
+    );
+};
+
+// export default showBreakReminder;

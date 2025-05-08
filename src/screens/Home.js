@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 import Timer from "../components/Timer";
 import Controls from "../components/Control";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import showBreakReminder from "../components/Alert";
+import { showBreakReminder, showFocusReminder } from "../components/Alert";
 import {
     ModalContainer,
     ModalContentWrapper,
@@ -96,8 +96,9 @@ const Home = () => {
     };
 
     const handleFinish = () => {
+        setIsRunning(false); 
         if (mode === "focus") {
-            showBreakReminder();
+            //showBreakReminder(); ESTAVA DUPLICANDO ---> NA FRENTE DELA VOU COLCOCAR UM ALERT PRA VOLTAR PRO FOCO
             setMode("rest");
         } else {
             setMode("focus");

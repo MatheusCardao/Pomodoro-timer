@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Audio } from "expo-av";
 import styled from "styled-components/native";
-import showBreakReminder from "./Alert";
+import { showBreakReminder, showFocusReminder } from "./Alert";
 
 const TimerContainer = styled.View`
   align-items: center;
@@ -65,7 +65,11 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
         if (timeLeft === 0 && isRunning && !hasFinishedRef.current) {
             hasFinishedRef.current = true;
             playSound();
-            if (mode === "focus") showBreakReminder();
+            if (mode === "focus") {
+                showBreakReminder();  // alerta de pausa
+            } else {
+                showFocusReminder();  // alerta para voltar ao foco
+            }
             onFinish();
         }
     }, [timeLeft, isRunning, mode, onFinish]);
