@@ -23,7 +23,6 @@ import {
     SaveText
 } from "../styles/ModalStyles";
 
-// Gradiente aplicado como container principal
 const GradientBackground = styled(LinearGradient)`
   flex: 1;
   align-items: center;
@@ -148,12 +147,10 @@ const Home = () => {
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
         >
-            {/* Botão de engrenagem */}
             <SettingsButton onPress={() => setModalVisible(true)}>
                 <Icon name="settings" size={30} color="#333" />
             </SettingsButton>
 
-            {/* Modal de configurações */}
             <SettingsModal visible={modalVisible} transparent animationType="slide">
                 <ModalContent>
                     <ConfigBox>

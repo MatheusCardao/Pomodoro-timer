@@ -60,10 +60,9 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
         <Modal visible={visible} animationType="slide" transparent={true}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    {/* Cabeçalho */}
-                    <Text style={styles.modalTitle}>Configurações</Text>
 
-                    {/* Seção de tempo de foco */}
+                    <Text style={styles.modalTitle}>Configurações</Text>
+                    
                     <Text style={styles.sectionTitle}>Tempo de Foco</Text>
                     <View style={styles.timeInputContainer}>
                         <View style={styles.inputGroup}>
@@ -91,7 +90,6 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                         </View>
                     </View>
 
-                    {/* Seção de tempo de descanso */}
                     <Text style={styles.sectionTitle}>Tempo de Descanso</Text>
                     <View style={styles.timeInputContainer}>
                         <View style={styles.inputGroup}>
@@ -119,7 +117,6 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
                         </View>
                     </View>
 
-                    {/* Botão de salvar */}
                     <TouchableOpacity
                         style={styles.saveButton}
                         onPress={handleSave}
