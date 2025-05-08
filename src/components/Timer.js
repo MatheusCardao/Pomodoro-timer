@@ -22,9 +22,9 @@ const Timer = ({ isRunning, onFinish, mode, resetTrigger, focusTime, restTime })
 
     const getInitialTime = () => {
         return mode === "focus"
-            ? Math.max(1, parseTime(focusTime, 25) * 60)
-            : Math.max(1, parseTime(restTime, 5) * 60);
-    };
+          ? Math.max(1, parseTime(focusTime, 1500)) 
+          : Math.max(1, parseTime(restTime, 300)); 
+      };
 
     const [timeLeft, setTimeLeft] = useState(getInitialTime());
     const timeLeftRef = useRef(timeLeft);

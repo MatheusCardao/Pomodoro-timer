@@ -63,71 +63,72 @@ const SettingsModal = ({ visible, onClose, onSave, currentFocusTime, currentRest
         <Modal visible={visible} animationType="slide" transparent={true}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    {/* Botão de fechar no topo */}
-                    <TouchableOpacity 
-                        style={styles.closeButton} 
-                        onPress={onClose}
-                    >
-                        <Text style={styles.closeButtonText}>✕</Text>
-                    </TouchableOpacity>
+                    {/* Cabeçalho */}
+                    <Text style={styles.modalTitle}>Configurações</Text>
                     
                     {/* Seção de tempo de foco */}
                     <Text style={styles.sectionTitle}>Tempo de Foco</Text>
                     <View style={styles.timeInputContainer}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="25"
-                            keyboardType="numeric"
-                            maxLength={3}
-                            value={focusMinutes}
-                            onChangeText={(value) => validateNumericInput(value, setFocusMinutes)}
-                        />
-                        <Text style={styles.labelText}>min</Text>
-                        <Text style={styles.separator}>:</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="00"
-                            keyboardType="numeric"
-                            maxLength={2}
-                            value={focusSeconds}
-                            onChangeText={(value) => validateSeconds(value, setFocusSeconds)}
-                        />
-                        <Text style={styles.labelText}>seg</Text>
+                        <View style={styles.inputGroup}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="25"
+                                keyboardType="numeric"
+                                maxLength={3}
+                                value={focusMinutes}
+                                onChangeText={(value) => validateNumericInput(value, setFocusMinutes)}
+                            />
+                            <Text style={styles.labelText}>min</Text>
+                        </View>
+                        
+                        <View style={styles.inputGroup}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="00"
+                                keyboardType="numeric"
+                                maxLength={2}
+                                value={focusSeconds}
+                                onChangeText={(value) => validateSeconds(value, setFocusSeconds)}
+                            />
+                            <Text style={styles.labelText}>seg</Text>
+                        </View>
                     </View>
                     
                     {/* Seção de tempo de descanso */}
                     <Text style={styles.sectionTitle}>Tempo de Descanso</Text>
                     <View style={styles.timeInputContainer}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="5"
-                            keyboardType="numeric"
-                            maxLength={3}
-                            value={restMinutes}
-                            onChangeText={(value) => validateNumericInput(value, setRestMinutes)}
-                        />
-                        <Text style={styles.labelText}>min</Text>
-                        <Text style={styles.separator}>:</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="00"
-                            keyboardType="numeric"
-                            maxLength={2}
-                            value={restSeconds}
-                            onChangeText={(value) => validateSeconds(value, setRestSeconds)}
-                        />
-                        <Text style={styles.labelText}>seg</Text>
+                        <View style={styles.inputGroup}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="5"
+                                keyboardType="numeric"
+                                maxLength={3}
+                                value={restMinutes}
+                                onChangeText={(value) => validateNumericInput(value, setRestMinutes)}
+                            />
+                            <Text style={styles.labelText}>min</Text>
+                        </View>
+                        
+                        <View style={styles.inputGroup}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="00"
+                                keyboardType="numeric"
+                                maxLength={2}
+                                value={restSeconds}
+                                onChangeText={(value) => validateSeconds(value, setRestSeconds)}
+                            />
+                            <Text style={styles.labelText}>seg</Text>
+                        </View>
                     </View>
                     
-                    {/* Botões */}
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity 
-                            style={styles.button} 
-                            onPress={handleSave}
-                        >
-                            <Text style={styles.buttonText}>Salvar</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {/* Botão de salvar */}
+                    <TouchableOpacity 
+                        style={styles.saveButton} 
+                        onPress={handleSave}
+                    >
+                        <Text style={styles.saveButtonText}>Salvar</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </Modal>
@@ -156,66 +157,55 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
-    closeButton: {
-        position: "absolute",
-        top: 10,
-        right: 10,
-        width: 30,
-        height: 30,
-        backgroundColor: "white",
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: "#eee"
-    },
-    closeButtonText: {
-        fontSize: 16,
-        fontWeight: "bold"
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 15,
+        textAlign: "center"
     },
     sectionTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginTop: 15,
+        fontSize: 16,
+        fontWeight: "500",
+        marginTop: 10,
         marginBottom: 10,
         textAlign: "center"
     },
     timeInputContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
-        marginBottom: 20
+        justifyContent: "space-between",
+        width: "100%",
+        marginBottom: 15
+    },
+    inputGroup: {
+        flexDirection: "column",
+        alignItems: "center",
+        flex: 1,
+        marginHorizontal: 10
     },
     input: {
         borderWidth: 1,
         borderColor: "#ccc",
         borderRadius: 5,
-        width: 60,
-        height: 40,
+        width: "100%",
+        height: 45,
         textAlign: "center",
         fontSize: 18
     },
     labelText: {
         fontSize: 14,
-        marginHorizontal: 5,
+        marginTop: 5,
+        color: "#666"
     },
-    separator: {
-        fontSize: 20,
-        marginHorizontal: 5,
-        fontWeight: "bold"
-    },
-    buttonContainer: {
-        width: "100%",
-        marginTop: 10
-    },
-    button: {
-        backgroundColor: "#2196F3", // Cor azul similar à que você está usando
+    saveButton: {
+        backgroundColor: "#4CAF50", // Cor verde como na imagem
         borderRadius: 5,
         padding: 12,
         alignItems: "center",
-        width: "100%"
+        width: "100%",
+        marginTop: 10
     },
-    buttonText: {
+    saveButtonText: {
         color: "white",
         fontWeight: "bold",
         fontSize: 16

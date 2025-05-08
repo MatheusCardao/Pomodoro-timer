@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Modal } from "react-native";
+import { View, Modal, Text } from "react-native";
 import styled from "styled-components/native";
 import Timer from "../components/Timer";
 import Controls from "../components/Control";
@@ -10,7 +10,7 @@ import {
     ModalContainer,
     ModalContentWrapper,
     InputWrapper,
-    InputLabel,
+    InputLabel as ImportedInputLabel,
     StyledInput,
     ModalButton,
     ModalButtonText,
@@ -45,6 +45,20 @@ const ModalContent = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
+const InputContainer = styled.View`
+  align-items: center;
+`;
+
+const InputWithLabel = styled.View`
+  align-items: center;
+`;
+
+const TimeUnitLabel = styled.Text`
+  color: #666;
+  font-size: 12px;
+  margin-top: 3px;
+`;
+
 const Input = styled.TextInput`
   width: 80px;
   height: 40px;
@@ -66,8 +80,8 @@ const CloseButton = styled.TouchableOpacity`
 const Home = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [mode, setMode] = useState("focus");
-    const [focusTime, setFocusTime] = useState(25);
-    const [restTime, setRestTime] = useState(5);
+    const [focusTime, setFocusTime] = useState(25 * 60); // 25 minutos em segundos
+    const [restTime, setRestTime] = useState(5 * 60);   // 5 minutos em segundos
     const [modalVisible, setModalVisible] = useState(false);
     const [resetTrigger, setResetTrigger] = useState(0);
 
@@ -90,6 +104,35 @@ const Home = () => {
         }
     };
 
+    // Funções de manipulação dos inputs
+    const handleFocusMinutesChange = (text) => {
+        const minutes = parseInt(text) || 0;
+        const seconds = focusTime % 60;
+        setFocusTime(minutes * 60 + seconds);
+    };
+
+    const handleFocusSecondsChange = (text) => {
+        const minutes = Math.floor(focusTime / 60);
+        const seconds = parseInt(text) || 0;
+        // Garantir que segundos esteja entre 0-59
+        const validSeconds = Math.min(59, seconds);
+        setFocusTime(minutes * 60 + validSeconds);
+    };
+
+    const handleRestMinutesChange = (text) => {
+        const minutes = parseInt(text) || 0;
+        const seconds = restTime % 60;
+        setRestTime(minutes * 60 + seconds);
+    };
+
+    const handleRestSecondsChange = (text) => {
+        const minutes = Math.floor(restTime / 60);
+        const seconds = parseInt(text) || 0;
+        // Garantir que segundos esteja entre 0-59
+        const validSeconds = Math.min(59, seconds);
+        setRestTime(minutes * 60 + validSeconds);
+    };
+
     return (
         <GradientBackground
             colors={["#f8f9fa", "#e0f0ff"]}
@@ -109,42 +152,44 @@ const Home = () => {
 
                         <Label>Tempo de Foco</Label>
                         <TimeRow>
-                            <StyledInput
-                                keyboardType="numeric"
-                                placeholder="Min"
-                                value={String(Math.floor(focusTime / 60))}
-                                onChangeText={(text) =>
-                                    setFocusTime((prev) => (Number(text) * 60) + (focusTime % 60))
-                                }
-                            />
-                            <StyledInput
-                                keyboardType="numeric"
-                                placeholder="Seg"
-                                value={String(focusTime % 60)}
-                                onChangeText={(text) =>
-                                    setFocusTime((prev) => (Math.floor(focusTime / 60) * 60) + Number(text))
-                                }
-                            />
+                            <InputWithLabel>
+                                <StyledInput
+                                    keyboardType="numeric"
+                                    value={String(Math.floor(focusTime / 60))}
+                                    onChangeText={handleFocusMinutesChange}
+                                />
+                                <TimeUnitLabel>min</TimeUnitLabel>
+                            </InputWithLabel>
+                            
+                            <InputWithLabel>
+                                <StyledInput
+                                    keyboardType="numeric"
+                                    value={String(focusTime % 60)}
+                                    onChangeText={handleFocusSecondsChange}
+                                />
+                                <TimeUnitLabel>seg</TimeUnitLabel>
+                            </InputWithLabel>
                         </TimeRow>
 
                         <Label>Tempo de Descanso</Label>
                         <TimeRow>
-                            <StyledInput
-                                keyboardType="numeric"
-                                placeholder="Min"
-                                value={String(Math.floor(restTime / 60))}
-                                onChangeText={(text) =>
-                                    setRestTime((prev) => (Number(text) * 60) + (restTime % 60))
-                                }
-                            />
-                            <StyledInput
-                                keyboardType="numeric"
-                                placeholder="Seg"
-                                value={String(restTime % 60)}
-                                onChangeText={(text) =>
-                                    setRestTime((prev) => (Math.floor(restTime / 60) * 60) + Number(text))
-                                }
-                            />
+                            <InputWithLabel>
+                                <StyledInput
+                                    keyboardType="numeric"
+                                    value={String(Math.floor(restTime / 60))}
+                                    onChangeText={handleRestMinutesChange}
+                                />
+                                <TimeUnitLabel>min</TimeUnitLabel>
+                            </InputWithLabel>
+                            
+                            <InputWithLabel>
+                                <StyledInput
+                                    keyboardType="numeric"
+                                    value={String(restTime % 60)}
+                                    onChangeText={handleRestSecondsChange}
+                                />
+                                <TimeUnitLabel>seg</TimeUnitLabel>
+                            </InputWithLabel>
                         </TimeRow>
 
                         <SaveButton onPress={() => setModalVisible(false)}>
@@ -153,7 +198,6 @@ const Home = () => {
                     </ConfigBox>
                 </ModalContent>
             </SettingsModal>
-
 
             <Timer
                 isRunning={isRunning}
