@@ -94,17 +94,17 @@ const Home = () => {
         setResetTrigger(prev => prev + 1);
     };
 
-    const handleSaveSettings = () => {
-        if (focusTime === 0 && restTime === 0) {
-            Alert.alert(
-                "Tempo inválido",
-                "Defina um tempo maior que 00:00 para foco e/ou descanso."
-            );
-            return;
-        }
+const handleSaveSettings = () => {
+    if (focusTime === 0 || restTime === 0) {
+        Alert.alert(
+            "Tempo inválido",
+            "Defina um tempo maior que 00:00 para foco e descanso."
+        );
+        return;
+    }
 
-        setModalVisible(false);
-    };
+    setModalVisible(false);
+};
 
     const handleFinish = () => {
         setIsRunning(false);
