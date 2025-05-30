@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Modal, Text } from "react-native";
+import LogoImg from "../../assets/Logotipo.png"
 import styled from "styled-components/native";
 import Timer from "../components/Timer";
 import Controls from "../components/Control";
@@ -75,6 +76,26 @@ const CloseButton = styled.TouchableOpacity`
   background-color: #fff;
   padding: 10px;
   border-radius: 5px;
+`;
+//Logo da estacio
+const LogoAndNameContainer = styled.View`
+  width: 100%;
+  align-items: center;
+  position: fixed;
+  top: 270px;
+`;
+
+const GroupName = styled.Text`  
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  position: relative;
+  top: 20px;
+`;
+
+const Logo = styled.Image`
+  width: 150px;
+  height: 150px;
 `;
 
 const Home = () => {
@@ -218,6 +239,12 @@ const handleSaveSettings = () => {
                 onStartPause={handleStartPause}
                 onReset={handleReset}
             />
+            <LogoAndNameContainer>
+                        <GroupName>Matheus De Siqueira Hammes Cardão</GroupName>
+                        <GroupName>Djalma Neto</GroupName>
+                        <GroupName>Pablo Carvalho Lopes Morais</GroupName>
+                <Logo source={LogoImg} resizeMode="contain" />
+            </LogoAndNameContainer>
         </GradientBackground>
     );
 };
